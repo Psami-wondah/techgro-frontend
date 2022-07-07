@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import AuthLayout from "../../components/authlayout";
+import GoogleButton from "../../components/google";
 import Info from "../../components/info";
 import { InputField } from "../../components/input";
 import { ButtonSpinner } from "../../components/loader";
@@ -62,7 +63,9 @@ const Register = () => {
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
         Create Account
       </p>
-      <div className="py-5">Sign up with google</div>
+      <div className="py-5">
+        <GoogleButton />
+      </div>
       <p className="text-[#909090] text-lg text-center">- OR -</p>
       {err && <Info type="warning" name="Error" message={err} />}
       <form action="" className="space-y-8 mt-5">

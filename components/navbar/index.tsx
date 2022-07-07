@@ -5,9 +5,17 @@ import menu from "../../public/svgs/menu.svg";
 import cancel from "../../public/svgs/cancel.svg";
 import MobileNav from "./mobile-nav";
 import Link from "next/link";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import userAtom from "../../atom/user.atom";
 
 const NavBar = () => {
   const [dropDown, setDropDown] = useState(false);
+  const userData = useRecoilValue(userAtom);
+  const resetUser = useResetRecoilState(userAtom);
+
+  const logout = () => {
+    resetUser();
+  };
   return (
     <div>
       <div className="flex items-center justify-between px-10 pt-5">
@@ -36,18 +44,36 @@ const NavBar = () => {
             Features
           </span>
         </div>
-        <div className="hidden lg:flex gap-x-8 items-center">
-          <Link href={"login"}>
-            <p className="text-white cursor-pointer hover:opacity-50 transition ease-out duration-150">
-              Login
+
+        {userData.access_token ? (
+          <div className="hidden lg:flex gap-x-8 items-center">
+            <p
+              className="text-white cursor-pointer hover:opacity-50 transition ease-out duration-150"
+              onClick={() => logout()}
+            >
+              Logout
             </p>
-          </Link>
-          <Link href={"/register"}>
-            <button className="bg-white rounded-[40px] py-3 px-8 cursor-pointer hover:opacity-50 transition ease-out duration-150 ">
-              Register
-            </button>
-          </Link>
-        </div>
+
+            <Link href={"/register"}>
+              <button className="bg-white rounded-[40px] py-3 px-8 cursor-pointer hover:opacity-50 transition ease-out duration-150 ">
+                Dashboard
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div className="hidden lg:flex gap-x-8 items-center">
+            <Link href={"login"}>
+              <p className="text-white cursor-pointer hover:opacity-50 transition ease-out duration-150">
+                Login
+              </p>
+            </Link>
+            <Link href={"/register"}>
+              <button className="bg-white rounded-[40px] py-3 px-8 cursor-pointer hover:opacity-50 transition ease-out duration-150 ">
+                Register
+              </button>
+            </Link>
+          </div>
+        )}
 
         <div className="lg:hidden">
           <Image

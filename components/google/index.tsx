@@ -1,15 +1,30 @@
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import useGoogleLogin from "../../hooks/google.hook";
 import { GOOGLE_ID } from "../../utils/constants";
+import { ButtonSpinner } from "../loader";
 
-const GoogleButton = ({
-  handleGoogleResponse,
-  handleFailure,
-}: {
-  handleGoogleResponse:
-    | ((response: google.accounts.id.CredentialResponse) => void)
-    | undefined;
-  handleFailure: (error: unknown) => void;
-}) => {
+const GoogleButton = () => {
+  const router = useRouter();
+  const { mutate, isLoading } = useGoogleLogin();
+
+  const handleGoogleResponse = async (
+    response: google.accounts.id.CredentialResponse
+  ) => {
+    mutate(
+      { credential: response.credential },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      }
+    );
+  };
+
+  const handleFailure = (error: unknown) => {
+    console.log(error);
+  };
+
   const initializeGSI = () => {
     if (typeof window !== "undefined") {
       try {
@@ -41,7 +56,15 @@ const GoogleButton = ({
   }, []); // eslint-disable-line
 
   return (
-    <div id="google-continue-button-myquba" className="track-sign-in-cn"></div>
+    <>
+      {isLoading ? (
+        <div>
+          <ButtonSpinner />
+        </div>
+      ) : (
+        <div id="google-continue-button-myquba" className=""></div>
+      )}
+    </>
   );
 };
 

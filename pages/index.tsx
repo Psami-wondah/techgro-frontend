@@ -1,9 +1,57 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atom/user.atom";
 import NavBar from "../components/navbar";
+import useGoogleLogin from "../hooks/google.hook";
+import { GOOGLE_ID } from "../utils/constants";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { mutate, isLoading } = useGoogleLogin();
+  const userData = useRecoilValue(userAtom);
+
+  const handleGoogleResponse = async (
+    response: google.accounts.id.CredentialResponse
+  ) => {
+    mutate(
+      { credential: response.credential },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      }
+    );
+  };
+
+  const initializeGSI = () => {
+    if (typeof window !== "undefined") {
+      if (!userData.access_token) {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_ID,
+          callback: handleGoogleResponse,
+        });
+        document.cookie =
+          "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        window.google.accounts.id.prompt((notification) => {
+          if (notification.isNotDisplayed()) {
+            console.error("No google sessions");
+          }
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const el = document.createElement("script");
+    el.setAttribute("src", "https://accounts.google.com/gsi/client");
+    document.querySelector("body")?.appendChild(el);
+    el.onload = () => initializeGSI();
+  }, []); // eslint-disable-line
+
   return (
     <div>
       <div className=" bg-techgro-dark min-h-screen font-nunito bg-techgro-home bg-no-repeat bg-50%">

@@ -1,10 +1,56 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import AuthLayout from "../../components/authlayout";
+import Info from "../../components/info";
 import { InputField } from "../../components/input";
+import { ButtonSpinner } from "../../components/loader";
+import ResendEmailModal from "../../components/resendverificationmail";
+import useLogin from "../../hooks/login.hook";
 
 const Login = () => {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [err, setErr] = useState("");
+  const { mutate, isLoading } = useLogin();
+  function login() {
+    const { email, password } = data;
+    const emailFilter =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (email.trim() === "" || email === null) {
+      return setErr("please enter your email");
+    }
+    if (!emailFilter.test(email)) {
+      return setErr("Please include an @ in your email");
+    }
+    if (password.trim() === "" || password === null) {
+      return setErr("please enter your password");
+    }
+    setErr("");
+    mutate(data, {
+      onSuccess: () => {
+        router.push("/dashboard");
+      },
+    });
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setData({
+      ...data,
+      [name]: value.trim(),
+    });
+  };
   return (
     <AuthLayout>
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
@@ -12,22 +58,29 @@ const Login = () => {
       </p>
       <div className="py-5">Sign up with google</div>
       <p className="text-[#909090] text-lg text-center">- OR -</p>
+      {err && <Info type="warning" name="Error" message={err} />}
       <form action="" className="space-y-8 mt-5">
         <InputField
           placeholder="Email Address"
           type="email"
           name="email"
           id="email"
+          onChange={(e) => handleChange(e)}
         />
         <InputField
           placeholder="Password"
           type="password"
           name="password"
           id="password"
+          onChange={(e) => handleChange(e)}
         />
         <div className="text-center">
-          <button className="bg-techgro-green py-[10px] w-[70%] font-[700] text-white rounded-[9px] mt-5 hover:opacity-50 transition ease-out duration-150">
-            Sign In
+          <button
+            type="button"
+            onClick={() => login()}
+            className="bg-techgro-green py-[10px] w-[70%] font-[700] text-white rounded-[9px] mt-5 hover:opacity-50 transition ease-out duration-150"
+          >
+            {isLoading ? <ButtonSpinner /> : "Sign In"}
           </button>
           <p className="text-[#A0A0A0] mt-5">
             {`Don't`} have an account?{" "}
@@ -37,8 +90,23 @@ const Login = () => {
               </span>
             </Link>
           </p>
+          <p className=" mt-5">
+            {" "}
+            <Link href={"/forgotpassword"}>
+              <span className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer">
+                Forgot Password?
+              </span>
+            </Link>
+          </p>
+          <p
+            onClick={() => handleOpen()}
+            className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer mt-5 "
+          >
+            Resend Verification Email
+          </p>
         </div>
       </form>
+      <ResendEmailModal open={open} handleClose={handleClose} />
     </AuthLayout>
   );
 };

@@ -8,3 +8,11 @@ export const ButtonSpinner = () => {
     </div>
   );
 };
+
+export const Loader = () => {
+  return (
+    <div className=" flex justify-center py-80">
+      <TailSpin color="#81E291" width={80} height={80} />
+    </div>
+  );
+};

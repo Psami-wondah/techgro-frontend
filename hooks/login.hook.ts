@@ -13,7 +13,7 @@ export default function useLogin() {
   const setUserData = useSetRecoilState(userAtom);
   return useMutation((data: LoginData) => Api.auth.signInEmail(data), {
     onSuccess: ({ data }) => {
-      toast.success("Welcome Back");
+      toast.success(data.message);
       setUserData(data);
     },
     onError: (err: any) => {

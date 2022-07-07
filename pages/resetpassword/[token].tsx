@@ -1,43 +1,50 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import AuthLayout from "../../components/authlayout";
 import Info from "../../components/info";
 import { InputField } from "../../components/input";
 import { ButtonSpinner } from "../../components/loader";
-import useForgotPassword from "../../hooks/forgotPassword.hook";
+import useResetPassword from "../../hooks/resetPassword.hook";
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+const ResetPassword = () => {
+  const router = useRouter();
+  const { token } = router.query; //test with logs
+
   const [err, setErr] = useState("");
+  const [password, setPassword] = useState("");
 
-  const { mutate, isLoading } = useForgotPassword();
+  const { mutate, isLoading } = useResetPassword();
 
   const submit = () => {
-    const emailFilter =
-      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (email.trim() === "" || email === null) {
-      return setErr("please enter your email");
+    if (router.isReady) {
+      if (password.trim() === "" || password === null) {
+        return setErr("please enter your email");
+      }
+      setErr("");
+      mutate(
+        { token: token as string, data: { password } },
+        {
+          onSuccess: () => {
+            router.push("/login");
+          },
+        }
+      );
     }
-    if (!emailFilter.test(email)) {
-      return setErr("Please include an @ in your email");
-    }
-    setErr("");
-    mutate(email, {
-      onSuccess: () => {},
-    });
   };
+
   return (
     <AuthLayout>
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
-        Forgot Password
+        Reset Your Password
       </p>
       {err && <Info type="warning" name="Error" message={err} />}
       <form action="" className="space-y-8 mt-10">
         <InputField
-          placeholder="Email Address"
-          type="email"
-          name="email"
-          id="email"
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="New Password"
+          type="password"
+          name="password"
+          id="password"
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <div className="text-center">
@@ -54,4 +61,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

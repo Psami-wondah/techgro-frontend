@@ -25,19 +25,19 @@ const Register = () => {
     const emailFilter =
       /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-    if (first_name === "" || first_name === null) {
+    if (first_name.trim() === "" || first_name === null) {
       return setErr("please enter your first name");
     }
-    if (last_name === "" || last_name === null) {
+    if (last_name.trim() === "" || last_name === null) {
       return setErr("please enter your last name");
     }
-    if (email === "" || email === null) {
+    if (email.trim() === "" || email === null) {
       return setErr("please enter your email");
     }
     if (!emailFilter.test(email)) {
       return setErr("Please include an @ in your email");
     }
-    if (password === "" || password === null) {
+    if (password.trim() === "" || password === null) {
       return setErr("please enter your password");
     }
     setErr("");
@@ -53,7 +53,7 @@ const Register = () => {
 
     setData({
       ...data,
-      [name]: value,
+      [name]: value.trim(),
     });
   };
 

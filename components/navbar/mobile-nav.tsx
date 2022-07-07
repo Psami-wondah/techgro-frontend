@@ -32,7 +32,7 @@ const MobileNav = () => {
         {userData.access_token ? (
           <p
             className="text-white cursor-pointer hover:opacity-50 transition ease-out duration-150"
-            onClick={() => logout}
+            onClick={() => logout()}
           >
             Logout
           </p>

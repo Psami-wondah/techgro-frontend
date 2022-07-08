@@ -57,13 +57,7 @@ const GoogleButton = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div>
-          <ButtonSpinner />
-        </div>
-      ) : (
-        <div id="google-continue-button-myquba" className=""></div>
-      )}
+      <div id="google-continue-button-myquba" className=""></div>
     </>
   );
 };

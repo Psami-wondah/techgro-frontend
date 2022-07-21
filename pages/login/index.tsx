@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useRecoilValue } from "recoil";
+import errorAtom from "../../atom/error.atom";
 import AuthLayout from "../../components/authlayout";
 import GoogleButton from "../../components/google";
 import Info from "../../components/info";
@@ -9,17 +12,42 @@ import { InputField } from "../../components/input";
 import { ButtonSpinner } from "../../components/loader";
 import ResendEmailModal from "../../components/resendverificationmail";
 import useLogin from "../../hooks/login.hook";
+import { EMAIL_NOT_VERIFIED_ERROR } from "../../utils/constants";
 
 const Login = () => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const errorMessage = useRecoilValue(errorAtom);
 
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (errorMessage.message == EMAIL_NOT_VERIFIED_ERROR) {
+      toast(
+        (t) => (
+          <span>
+            <p className="font-bold text-lg">Your email is not verified</p>
+            <p></p>
+            <p
+              onClick={() => {
+                handleOpen();
+                toast.dismiss(t.id);
+              }}
+              className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer mt-5 "
+            >
+              Resend Verification Email
+            </p>
+          </span>
+        ),
+        { duration: 5000 }
+      );
+    }
+  }, [errorMessage]);
 
   const [err, setErr] = useState("");
   const { mutate, isLoading } = useLogin();
@@ -100,12 +128,6 @@ const Login = () => {
                 Forgot Password?
               </span>
             </Link>
-          </p>
-          <p
-            onClick={() => handleOpen()}
-            className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer mt-5 "
-          >
-            Resend Verification Email
           </p>
         </div>
       </form>

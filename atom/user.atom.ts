@@ -26,7 +26,6 @@ export default atom<UserAtom>({
       last_name: "",
       image_url: "",
     },
-
     access_token: "",
   } as UserAtom,
   effects_UNSTABLE: [persistAtom],

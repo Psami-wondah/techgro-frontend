@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Api } from "../services/Api";
 
 export type RegisterData = {

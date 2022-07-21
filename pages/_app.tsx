@@ -1,9 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
-import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -16,8 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{ duration: 3000 }}
+        />
         <Component {...pageProps} />
-        <ToastContainer />
       </QueryClientProvider>
     </RecoilRoot>
   );

@@ -1,7 +1,5 @@
 import axios from "axios";
 import { API_URL } from "../utils/constants";
-import { toast } from "react-toastify";
-// import Router from "next/router";
 
 const AxiosInstance = axios.create({
   baseURL: API_URL,

@@ -115,7 +115,7 @@ const Login = () => {
           </button>
           <p className="text-[#A0A0A0] mt-5">
             {`Don't`} have an account?{" "}
-            <Link href={"/register"}>
+            <Link href={"/register"} passHref>
               <span className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer">
                 Register
               </span>
@@ -123,7 +123,7 @@ const Login = () => {
           </p>
           <p className=" mt-5">
             {" "}
-            <Link href={"/forgotpassword"}>
+            <Link href={"/forgotpassword"} passHref>
               <span className="text-techgro-green hover:opacity-50 transition ease-out duration-150 cursor-pointer">
                 Forgot Password?
               </span>

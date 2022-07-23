@@ -17,5 +17,7 @@ export const Api = {
       AxiosInstance.post("/auth/forgot-password/" + email),
     resetPassword: async (token: string, data: object) =>
       AxiosInstance.put("/auth/reset-password/" + token, data),
+    verifyToken: async (data: object) =>
+      AxiosInstance.post("/auth/verify-token", data),
   },
 };

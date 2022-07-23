@@ -8,15 +8,13 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="bg-techgro-dark min-h-screen grid grid-cols-12 relative">
       <div className="col-span-4 px-5 ">
-        <Link href={"/"}>
-          <Image
-            src={logo}
-            alt="logo"
-            width={100}
-            height={100}
-            className="cursor-pointer hover:opacity-50 transition ease-out duration-150"
-          />
-        </Link>
+        <Image
+          src={logo}
+          alt="logo"
+          width={100}
+          height={100}
+          className="cursor-pointer hover:opacity-50 transition ease-out duration-150"
+        />
         <div className=" font-poppins text-white text-4xl mt-6 tracking-wider hidden md:block">
           Tech in Agriculture. Farm remotely!
         </div>{" "}

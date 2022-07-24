@@ -5,6 +5,7 @@ import home_logo from "../../public/svgs/home_logo.svg";
 import logout from "../../public/svgs/logout.svg";
 import settings from "../../public/svgs/settings.svg";
 import history from "../../public/svgs/history.svg";
+import farm from "../../public/svgs/farm.svg";
 import { useResetRecoilState } from "recoil";
 import userAtom from "../../atom/user.atom";
 import { useRouter } from "next/router";
@@ -63,6 +64,13 @@ const SideNav = ({
             >
               <Image src={settings} alt="settings" />
               Account Settings
+            </div>
+            <div
+              className="cursor-pointer hover:opacity-50 transition ease-out duration-150 flex items-center gap-x-3"
+              onClick={() => setActiveTab("farm")}
+            >
+              <Image src={farm} alt="farm" />
+              My Farms
             </div>
             <div
               className="cursor-pointer hover:opacity-50 transition ease-out duration-150 flex items-center gap-x-3"

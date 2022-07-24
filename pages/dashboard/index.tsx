@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../../atom/user.atom";
-import CircularProgressWithLabel from "../../components/circularprogress";
+import Farm from "../../components/dashboard/farm";
 import History from "../../components/dashboard/history";
 import Home from "../../components/dashboard/home";
 import Settings from "../../components/dashboard/settings";
@@ -46,9 +46,10 @@ const Dashboard = () => {
         {activeTab === "home" && <Home />}
         {activeTab === "history" && <History />}
         {activeTab === "settings" && <Settings />}
+        {activeTab == "farm" && <Farm />}
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

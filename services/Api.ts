@@ -1,5 +1,5 @@
 import axios from "axios";
-import AxiosInstance from "./ApiHandler";
+import AxiosInstance, { AuthAxiosInstance } from "./ApiHandler";
 
 export const Api = {
   auth: {
@@ -19,5 +19,11 @@ export const Api = {
       AxiosInstance.put("/auth/reset-password/" + token, data),
     verifyToken: async (data: object) =>
       AxiosInstance.post("/auth/verify-token", data),
+  },
+  farm: {
+    addFarm: async (data: object) => AuthAxiosInstance.post("/farm/add", data),
+    getFarms: async () => AuthAxiosInstance.get("/farm/all"),
+    getFarmData: async (farm_short_id: string) =>
+      AuthAxiosInstance.post("/farm/farm-data/" + farm_short_id),
   },
 };

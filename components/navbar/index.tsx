@@ -86,7 +86,7 @@ const NavBar = () => {
           />
         </div>
       </div>
-      {dropDown && <MobileNav />}
+      <MobileNav dropDown={dropDown} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import userAtom from "../../atom/user.atom";
 
-const MobileNav = () => {
+const MobileNav = ({ dropDown }: { dropDown: boolean }) => {
   const userData = useRecoilValue(userAtom);
   const resetUser = useResetRecoilState(userAtom);
 
@@ -13,7 +13,11 @@ const MobileNav = () => {
   };
   return (
     <div className="lg:hidden">
-      <div className=" space-y-7 text-white flex flex-col justify-center text-center px-6">
+      <div
+        className={`space-y-7 text-white flex flex-col justify-center text-center px-6 overflow-hidden transition-[max-height] duration-500 ${
+          dropDown ? "max-h-screen" : "max-h-0"
+        }`}
+      >
         <span className="cursor-pointer hover:opacity-50 transition ease-out duration-150">
           About
         </span>

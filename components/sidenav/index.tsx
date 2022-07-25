@@ -6,9 +6,7 @@ import logout from "../../public/svgs/logout.svg";
 import settings from "../../public/svgs/settings.svg";
 import history from "../../public/svgs/history.svg";
 import farm from "../../public/svgs/farm.svg";
-import { useResetRecoilState } from "recoil";
-import userAtom from "../../atom/user.atom";
-import { useRouter } from "next/router";
+import useLogout from "../../hooks/logout.hook";
 
 interface ISideNavProps {
   openSideNav: boolean;
@@ -21,13 +19,8 @@ const SideNav = ({
   setOpenSideNav,
   setActiveTab,
 }: ISideNavProps) => {
-  const resetUser = useResetRecoilState(userAtom);
-  const router = useRouter();
+  const { Logout } = useLogout();
 
-  const Logout = () => {
-    resetUser();
-    router.push("/");
-  };
   return (
     <>
       <div

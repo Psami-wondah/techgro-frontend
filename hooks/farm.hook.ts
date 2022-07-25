@@ -29,11 +29,11 @@ export function useGetFarms() {
     enabled: false,
     refetchOnMount: false,
     onSuccess: ({ data }) => {
-      setFarms(data);
+      setFarms({ farms: data, currentFarm: data[0]?.short_id });
     },
     onError: (err: any) => {
       toast.error(err);
-      setFarms([]);
+      setFarms({ farms: [], currentFarm: "" });
     },
   });
 }

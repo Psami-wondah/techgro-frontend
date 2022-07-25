@@ -5,17 +5,15 @@ import menu from "../../public/svgs/menu.svg";
 import cancel from "../../public/svgs/cancel.svg";
 import MobileNav from "./mobile-nav";
 import Link from "next/link";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import userAtom from "../../atom/user.atom";
+import useLogout from "../../hooks/logout.hook";
 
 const NavBar = () => {
   const [dropDown, setDropDown] = useState(false);
   const userData = useRecoilValue(userAtom);
-  const resetUser = useResetRecoilState(userAtom);
 
-  const logout = () => {
-    resetUser();
-  };
+  const { Logout } = useLogout();
   return (
     <div>
       <div className="flex items-center justify-between px-10 pt-5">
@@ -49,7 +47,7 @@ const NavBar = () => {
           <div className="hidden lg:flex gap-x-8 items-center">
             <p
               className="text-white cursor-pointer hover:opacity-50 transition ease-out duration-150"
-              onClick={() => logout()}
+              onClick={() => Logout()}
             >
               Logout
             </p>

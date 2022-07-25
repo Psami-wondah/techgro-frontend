@@ -82,7 +82,7 @@ const Farm = () => {
         {isFetching ? (
           <Loader />
         ) : (
-          farms.map((farm, index) => <div key={index}>{farm.name}</div>)
+          farms.farms.map((farm, index) => <div key={index}>{farm.name}</div>)
         )}
       </div>
     </div>

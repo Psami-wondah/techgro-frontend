@@ -1,24 +1,15 @@
-import { MenuItem, SelectChangeEvent } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import farmAtom from "../../../atom/farm.atom";
-import { useGetFarms } from "../../../hooks/farm.hook";
+import { useGetFarmData } from "../../../hooks/farm.hook";
 import CircularProgressWithLabel from "../../circularprogress";
 import { Loader } from "../../loader";
-import { SelectField } from "../../select";
+import SelectFarm from "../../selectfarm";
 
 const Home = () => {
-  const [currentFarm, setCurrentFarm] = useState("");
-  const { refetch, isFetching } = useGetFarms();
+  const farmState = useRecoilValue(farmAtom);
 
-  const selectFarm = (e: SelectChangeEvent<string>) => {
-    setCurrentFarm(e.target.value);
-  };
-  const farms = useRecoilValue(farmAtom);
-  useEffect(() => {
-    refetch();
-    setCurrentFarm(farms[0]?.short_id);
-  }, [farmAtom]); // eslint-disable-line
+  const { refetch, isFetching } = useGetFarmData(farmState.currentFarm);
 
   return (
     <div>
@@ -26,19 +17,7 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <div className="py-6">
-            <SelectField
-              value={currentFarm}
-              onChange={selectFarm}
-              id="farm-select"
-            >
-              {farms.map((farm, index) => (
-                <MenuItem key={index} value={farm.short_id}>
-                  {farm.name}
-                </MenuItem>
-              ))}
-            </SelectField>
-          </div>
+          <SelectFarm />
           <div className="grid grid-cols-1 md:grid-cols-2 p-12 gap-12">
             <div>
               <div className=" flex justify-center">

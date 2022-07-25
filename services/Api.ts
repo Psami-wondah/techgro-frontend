@@ -24,6 +24,6 @@ export const Api = {
     addFarm: async (data: object) => AuthAxiosInstance.post("/farm/add", data),
     getFarms: async () => AuthAxiosInstance.get("/farm/all"),
     getFarmData: async (farm_short_id: string) =>
-      AuthAxiosInstance.post("/farm/farm-data/" + farm_short_id),
+      AuthAxiosInstance.get("/farm/farm-data/" + farm_short_id),
   },
 };

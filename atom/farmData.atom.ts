@@ -4,7 +4,7 @@ export type FarmDataAtom = {
   temperature: string;
   humidity: string;
   soil_moisture: string;
-  date: string;
+  date_added: string;
 };
 
 export default atom<FarmDataAtom[]>({

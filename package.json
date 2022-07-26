@@ -22,6 +22,7 @@
     "react-query": "^3.39.1",
     "recoil": "^0.7.4",
     "recoil-persist": "^4.2.0",
+    "socket.io-client": "^4.5.1",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

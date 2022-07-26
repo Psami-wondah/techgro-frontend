@@ -1,29 +1,37 @@
-import React, { useEffect } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import farmAtom from "../../../atom/farm.atom";
-import { useGetFarmData } from "../../../hooks/farm.hook";
+import farmDataAtom, { FarmDataAtom } from "../../../atom/farmData.atom";
+import { FarmData, useGetFarmData } from "../../../hooks/farm.hook";
 import CircularProgressWithLabel from "../../circularprogress";
 import { Loader } from "../../loader";
 import SelectFarm from "../../selectfarm";
 
 const Home = () => {
   const farmState = useRecoilValue(farmAtom);
+  const farmData = useRecoilValue(farmDataAtom)
+  const { mutate, isLoading } = useGetFarmData();
 
-  const { refetch, isFetching } = useGetFarmData(farmState.currentFarm);
+
+  useEffect(() => {
+    mutate(farmState.currentFarm);
+  }, [farmState.currentFarm]); // eslint-disable-line
 
   return (
     <div>
-      {isFetching ? (
-        <Loader />
-      ) : (
+
         <>
           <SelectFarm />
-          <div className="grid grid-cols-1 md:grid-cols-2 p-12 gap-12">
+
+          <p>Current Time: <span>{moment(new Date(farmData[0]?.date_added)).format("MMMM Do YYYY, h:mm:ss a")}</span></p>
+
+          {isLoading? <Loader/>: <div className="grid grid-cols-1 md:grid-cols-2 p-12 gap-12">
             <div>
               <div className=" flex justify-center">
                 <CircularProgressWithLabel
                   symbol="°C"
-                  value={150}
+                  value={Math.round(Number(farmData[0]?.temperature))}
                   size={300}
                   sx={{ circle: { color: "rgb(249, 157, 64)" } }}
                   className="bg-gray-100 rounded-full"
@@ -37,7 +45,7 @@ const Home = () => {
             <div>
               <div className=" flex justify-center">
                 <CircularProgressWithLabel
-                  value={20}
+                  value={Math.round(Number(farmData[0]?.humidity))}
                   size={300}
                   symbol="%"
                   sx={{ circle: { color: "#08D2FB" } }}
@@ -52,7 +60,7 @@ const Home = () => {
             <div>
               <div className=" flex justify-center ">
                 <CircularProgressWithLabel
-                  value={20}
+                  value={Math.round(Number(farmData[0]?.soil_moisture))}
                   size={300}
                   symbol="%"
                   sx={{ circle: { color: "#81E291" } }}
@@ -63,9 +71,10 @@ const Home = () => {
                 Soil Moisture Percentage
               </p>
             </div>
-          </div>
+          </div>}
+
         </>
-      )}
+
     </div>
   );
 };

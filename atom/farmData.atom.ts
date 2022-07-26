@@ -9,5 +9,12 @@ export type FarmDataAtom = {
 
 export default atom<FarmDataAtom[]>({
   key: "farm-data",
-  default: [] as FarmDataAtom[],
+  default: [
+    {
+      date_added: "2022-01-01T18:39:10.258+00:00",
+      soil_moisture: "0",
+      temperature: "0",
+      humidity: "0",
+    },
+  ] as FarmDataAtom[],
 });

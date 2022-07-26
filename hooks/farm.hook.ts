@@ -38,15 +38,14 @@ export function useGetFarms() {
   });
 }
 
-export function useGetFarmData(farmShortId: string) {
+export function useGetFarmData() {
   const setFarmData = useSetRecoilState(farmDataAtom);
-  return useQuery("get-farm-data", () => Api.farm.getFarmData(farmShortId), {
-    enabled: false,
-    refetchOnMount: false,
+  return  useMutation((farmShortId: string) => Api.farm.getFarmData(farmShortId), {
     onSuccess: ({ data }) => {
       setFarmData(data);
     },
     onError: (err: any) => {
+      setFarmData([])
       toast.error(err);
     },
   });

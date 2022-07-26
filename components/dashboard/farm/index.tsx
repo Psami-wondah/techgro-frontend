@@ -2,10 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import farmAtom from "../../../atom/farm.atom";
 import useCreateFarm, { useGetFarms } from "../../../hooks/farm.hook";
-import { Auth } from "../../../services/storage";
 import Info from "../../info";
 import { InputField } from "../../input";
 import { ButtonSpinner, Loader } from "../../loader";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import moment from "moment";
 
 const Farm = () => {
   const { refetch, isFetching } = useGetFarms();
@@ -82,7 +89,34 @@ const Farm = () => {
         {isFetching ? (
           <Loader />
         ) : (
-          farms.farms.map((farm, index) => <div key={index}>{farm.name}</div>)
+          <div className="py-5">
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="results table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell align="right">Key</TableCell>
+                    <TableCell align="right">Short ID</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {farms.farms.map((row, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+
+                      <TableCell align="right">{row.key}</TableCell>
+                      <TableCell align="right">{row.short_id}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         )}
       </div>
     </div>

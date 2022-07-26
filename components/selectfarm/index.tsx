@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import farmAtom from "../../atom/farm.atom";
 import { useGetFarms } from "../../hooks/farm.hook";
+import { ButtonSpinner } from "../loader";
 import { SelectField } from "../select";
 
 const SelectFarm = () => {
@@ -17,17 +18,19 @@ const SelectFarm = () => {
   };
   return (
     <div className="py-6">
-      <SelectField
+      {isFetching? <ButtonSpinner/> :  <SelectField
         value={farmState.currentFarm}
         onChange={selectFarm}
         id="farm-select"
       >
+       
         {farmState.farms.map((farm, index) => (
           <MenuItem key={index} value={farm.short_id}>
             {farm.name}
           </MenuItem>
         ))}
-      </SelectField>
+      </SelectField>}
+      
     </div>
   );
 };

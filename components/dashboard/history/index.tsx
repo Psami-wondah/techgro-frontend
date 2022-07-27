@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import farmAtom from "../../../atom/farm.atom";
-import farmDataAtom from "../../../atom/farmData.atom";
+import farmDataAtom, { FarmDataAtom } from "../../../atom/farmData.atom";
 import { useGetFarmData } from "../../../hooks/farm.hook";
 import { Loader } from "../../loader";
 import SelectFarm from "../../selectfarm";
@@ -14,7 +14,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
 import { useSocketIO } from "../../../hooks/socket.hook";
-import { BACKEND_URL } from "../../../utils/constants";
 
 const History = () => {
   const farmState = useRecoilValue(farmAtom);
@@ -22,25 +21,26 @@ const History = () => {
 
   const { mutate, isLoading } = useGetFarmData();
 
-  const { socket, isConnected } = useSocketIO(BACKEND_URL);
+  const { socket, isConnected } = useSocketIO();
 
   useEffect(() => {
     mutate(farmState.currentFarm);
   }, [farmState.currentFarm]); // eslint-disable-line
 
-  // useEffect(() => {
-  //   const theInterval = setInterval(() => {
-  //     if (socket.connected) {
-  //       socket.emit(
-  //         "sensor_data",
-  //         JSON.stringify({ farm_short_id: farmState.currentFarm })
-  //       );
-  //     }
-  //     console.log("sending", socket.connected);
-  //   }, 4000);
+  useEffect(() => {
+    const theInterval = setInterval(() => {
+      if (socket.connected) {
+        socket.emit(
+          "sensor_data",
+          JSON.stringify({ farm_short_id: farmState.currentFarm })
+        );
+      }
+      // console.log(farmState.currentFarm);
+      // console.log("sending", socket.connected);
+    }, 4000);
 
-  //   return () => clearInterval(theInterval);
-  // }, []);
+    return () => clearInterval(theInterval);
+  }, [farmState.currentFarm]); // eslint-disable-line
   return (
     <div>
       <SelectFarm />

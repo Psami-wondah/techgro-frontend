@@ -4,29 +4,54 @@ import { useRecoilValue } from "recoil";
 import farmAtom from "../../../atom/farm.atom";
 import farmDataAtom, { FarmDataAtom } from "../../../atom/farmData.atom";
 import { FarmData, useGetFarmData } from "../../../hooks/farm.hook";
+import { useSocketIO } from "../../../hooks/socket.hook";
 import CircularProgressWithLabel from "../../circularprogress";
 import { Loader } from "../../loader";
 import SelectFarm from "../../selectfarm";
 
 const Home = () => {
   const farmState = useRecoilValue(farmAtom);
-  const farmData = useRecoilValue(farmDataAtom)
+  const farmData = useRecoilValue(farmDataAtom);
+
   const { mutate, isLoading } = useGetFarmData();
 
+  const { socket, isConnected } = useSocketIO();
 
   useEffect(() => {
     mutate(farmState.currentFarm);
   }, [farmState.currentFarm]); // eslint-disable-line
 
+  useEffect(() => {
+    const theInterval = setInterval(() => {
+      if (socket.connected) {
+        socket.emit(
+          "sensor_data",
+          JSON.stringify({ farm_short_id: farmState.currentFarm })
+        );
+      }
+    }, 4000);
+
+    return () => clearInterval(theInterval);
+  }, [farmState.currentFarm]); // eslint-disable-line
+
   return (
     <div>
+      <>
+        <SelectFarm />
 
-        <>
-          <SelectFarm />
+        <p>
+          Current Time:{" "}
+          <span>
+            {moment(new Date(farmData[0]?.date_added)).format(
+              "MMMM Do YYYY, h:mm:ss a"
+            )}
+          </span>
+        </p>
 
-          <p>Current Time: <span>{moment(new Date(farmData[0]?.date_added)).format("MMMM Do YYYY, h:mm:ss a")}</span></p>
-
-          {isLoading? <Loader/>: <div className="grid grid-cols-1 md:grid-cols-2 p-12 gap-12">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 p-12 gap-12">
             <div>
               <div className=" flex justify-center">
                 <CircularProgressWithLabel
@@ -71,10 +96,9 @@ const Home = () => {
                 Soil Moisture Percentage
               </p>
             </div>
-          </div>}
-
-        </>
-
+          </div>
+        )}
+      </>
     </div>
   );
 };

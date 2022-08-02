@@ -4,9 +4,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atom/user.atom";
-import NavBar from "../components/navbar";
+// import NavBr from "../components/navbar";
 import useGoogleLogin from "../hooks/google.hook";
 import { GOOGLE_ID } from "../utils/constants";
+import dynamic from "next/dynamic";
+
+const NavBar = dynamic(import("../components/navbar"), { ssr: false });
 
 const Home: NextPage = () => {
   const router = useRouter();

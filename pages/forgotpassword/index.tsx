@@ -15,7 +15,7 @@ const ForgotPassword = () => {
     const emailFilter =
       /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (email.trim() === "" || email === null) {
-      return setErr("please enter your email");
+      return setErr("Please enter your email");
     }
     if (!emailFilter.test(email)) {
       return setErr("Please include an @ in your email");

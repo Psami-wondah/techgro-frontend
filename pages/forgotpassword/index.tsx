@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import AuthLayout from "../../components/authlayout";
 import Info from "../../components/info";
@@ -27,6 +28,9 @@ const ForgotPassword = () => {
   };
   return (
     <AuthLayout>
+      <Head>
+        <title>Forgot Password Techgro</title>
+      </Head>
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
         Forgot Password
       </p>

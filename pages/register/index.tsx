@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -60,6 +61,9 @@ const Register = () => {
 
   return (
     <AuthLayout>
+      <Head>
+        <title>Register Techgro</title>
+      </Head>
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
         Create Account
       </p>

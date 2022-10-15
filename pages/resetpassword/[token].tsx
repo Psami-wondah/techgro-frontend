@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import AuthLayout from "../../components/authlayout";
@@ -34,6 +35,9 @@ const ResetPassword = () => {
 
   return (
     <AuthLayout>
+      <Head>
+        <title>Reset Password Techgro</title>
+      </Head>
       <p className="  font-[600] text-3xl tracking-wider mt-[10vh] md:mt-[20vh]">
         Reset Your Password
       </p>

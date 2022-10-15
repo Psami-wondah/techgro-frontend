@@ -8,6 +8,7 @@ import userAtom from "../atom/user.atom";
 import useGoogleLogin from "../hooks/google.hook";
 import { GOOGLE_ID } from "../utils/constants";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const NavBar = dynamic(import("../components/navbar"), { ssr: false });
 
@@ -57,6 +58,9 @@ const Home: NextPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>Techgro</title>
+      </Head>
       <div className=" bg-techgro-dark min-h-screen font-nunito bg-techgro-home bg-no-repeat bg-50%">
         <NavBar />
         <div className="mt-[10vh] md:mt-[17vh] font-lato text-center space-y-8 lg:space-y-5">

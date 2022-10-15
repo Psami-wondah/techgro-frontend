@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -16,6 +17,9 @@ const Dashboard = () => {
   const user = useRecoilValue(userAtom);
   return (
     <div>
+      <Head>
+        <title>Dashboard Techgro</title>
+      </Head>
       <SideNav
         openSideNav={openSideNav}
         setOpenSideNav={setOpenSideNav}

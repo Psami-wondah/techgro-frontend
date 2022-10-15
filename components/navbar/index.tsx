@@ -52,7 +52,7 @@ const NavBar = () => {
               Logout
             </p>
 
-            <Link href={"/register"}>
+            <Link href={"/dashboard"}>
               <button className="bg-white rounded-[40px] py-3 px-8 cursor-pointer hover:opacity-50 transition ease-out duration-150 ">
                 Dashboard
               </button>

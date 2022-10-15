@@ -40,13 +40,16 @@ export function useGetFarms() {
 
 export function useGetFarmData() {
   const setFarmData = useSetRecoilState(farmDataAtom);
-  return  useMutation((farmShortId: string) => Api.farm.getFarmData(farmShortId), {
-    onSuccess: ({ data }) => {
-      setFarmData(data);
-    },
-    onError: (err: any) => {
-      setFarmData([])
-      toast.error(err);
-    },
-  });
+  return useMutation(
+    (farmShortId: string) => Api.farm.getFarmData(farmShortId),
+    {
+      onSuccess: ({ data }) => {
+        setFarmData(data);
+      },
+      onError: (err: any) => {
+        setFarmData([]);
+        toast.error(err);
+      },
+    }
+  );
 }

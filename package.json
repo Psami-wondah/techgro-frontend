@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.8.7",
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "12.2.0",
     "react": "18.2.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/google.accounts": "^0.0.2",
+    "@types/lodash": "^4.14.186",
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
     "@types/react-datepicker": "^4.4.2",

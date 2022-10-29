@@ -52,17 +52,30 @@ const History = () => {
             <Table sx={{ minWidth: 650 }} aria-label="results table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell align="right">Soil Moisture</TableCell>
-                  <TableCell align="right">Temperature</TableCell>
-                  <TableCell align="right">Humidity</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="right">
+                    Soil Moisture
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="right">
+                    Temperature
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="right">
+                    Humidity
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {farmData.map((row, index) => (
                   <TableRow
                     key={index}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&:first-child td, &:first-child th": {
+                        color: "#81E291",
+                        fontWeight: "bold",
+                      },
+                    }}
+                    className=" first-of-type:text-techgro-green"
                   >
                     <TableCell component="th" scope="row">
                       {moment(new Date(row.date_added)).format(

@@ -20,7 +20,6 @@ const Home: NextPage = () => {
   const handleGoogleResponse = async (
     response: google.accounts.id.CredentialResponse
   ) => {
-    console.log(response.credential);
     mutate(
       { credential: response.credential },
       {

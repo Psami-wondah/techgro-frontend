@@ -9,6 +9,8 @@ import BasicChart from "../../chart";
 import CircularProgressWithLabel from "../../circularprogress";
 import { Loader } from "../../loader";
 import SelectFarm from "../../selectfarm";
+import Switch from "@mui/material/Switch";
+import motorStateAtom from "../../../atom/motorState.atom";
 
 const Home = () => {
   const farmState = useRecoilValue(farmAtom);
@@ -17,10 +19,38 @@ const Home = () => {
   const { mutate, isLoading } = useGetFarmData();
 
   const { socket, isConnected } = useSocketIO();
+  const motorState = useRecoilValue(motorStateAtom);
 
   useEffect(() => {
     mutate(farmState.currentFarm);
   }, [farmState.currentFarm]); // eslint-disable-line
+
+  const handleMotorChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    if (checked) {
+      if (isConnected) {
+        socket.emit(
+          "motor",
+          JSON.stringify({
+            farm_short_id: farmState.currentFarm,
+            motor_state: "on",
+          })
+        );
+      }
+    } else {
+      if (isConnected) {
+        socket.emit(
+          "motor",
+          JSON.stringify({
+            farm_short_id: farmState.currentFarm,
+            motor_state: "off",
+          })
+        );
+      }
+    }
+  };
 
   // useEffect(() => {
   //   const theInterval = setInterval(() => {
@@ -48,6 +78,16 @@ const Home = () => {
               .format("MMMM Do YYYY, h:mm:ss a")}
           </span>
         </p>
+        <div>
+          <p className=" font-rubik font-bold text-blue-500 pt-4">
+            Water Motor
+          </p>
+          <Switch
+            checked={motorState === "on" ? true : false}
+            onChange={handleMotorChange}
+            inputProps={{ "aria-label": "controlled" }}
+          />
+        </div>
 
         {isLoading ? (
           <Loader />

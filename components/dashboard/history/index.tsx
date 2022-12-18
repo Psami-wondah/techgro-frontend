@@ -27,20 +27,20 @@ const History = () => {
     mutate(farmState.currentFarm);
   }, [farmState.currentFarm]); // eslint-disable-line
 
-  useEffect(() => {
-    const theInterval = setInterval(() => {
-      if (socket.connected) {
-        socket.emit(
-          "sensor_data",
-          JSON.stringify({ farm_short_id: farmState.currentFarm })
-        );
-      }
-      // console.log(farmState.currentFarm);
-      // console.log("sending", socket.connected);
-    }, 4000);
+  // useEffect(() => {
+  //   const theInterval = setInterval(() => {
+  //     if (socket.connected) {
+  //       socket.emit(
+  //         "sensor_data",
+  //         JSON.stringify({ farm_short_id: farmState.currentFarm })
+  //       );
+  //     }
+  //     // console.log(farmState.currentFarm);
+  //     // console.log("sending", socket.connected);
+  //   }, 4000);
 
-    return () => clearInterval(theInterval);
-  }, [farmState.currentFarm]); // eslint-disable-line
+  //   return () => clearInterval(theInterval);
+  // }, [farmState.currentFarm]); // eslint-disable-line
   return (
     <div>
       <SelectFarm />

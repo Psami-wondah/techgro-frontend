@@ -32,6 +32,7 @@ export const useSocketIO = () => {
       console.log("Socket disconnected");
     });
     socket.on("new_sensor_data", (data: FarmDataAtom) => {
+      console.log(data);
       setFarmData((itemArr) => {
         const x = itemArr.filter((item) => item.date_added === data.date_added);
         if (x.length === 0) {

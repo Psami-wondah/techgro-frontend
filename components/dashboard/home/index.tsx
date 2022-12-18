@@ -175,6 +175,37 @@ const Home = () => {
                   .reverse()}
               />
             </div>
+
+            <div className="grid h-[130vh] lg:h-auto lg:grid-cols-2 items-center">
+              <div>
+                <div className=" flex justify-center ">
+                  <CircularProgressWithLabel
+                    value={Math.abs(
+                      100 - Math.round(Number(farmData[0]?.soil_moisture))
+                    )}
+                    size={300}
+                    symbol="%"
+                    sx={{ circle: { color: "#3c49a5" } }}
+                    className="bg-gray-100 rounded-full"
+                  />
+                </div>
+                <p className="w-full text-center p-4 text-xl font-nunito font-bold">
+                  Water Level
+                </p>
+              </div>
+
+              <BasicChart
+                data={farmData
+                  .map((item) => Math.abs(100 - Number(item.soil_moisture)))
+                  .slice(0, 4)
+                  .reverse()}
+                color={"#3c49a5"}
+                xData={farmData
+                  .map((item) => item.date_added)
+                  .slice(0, 4)
+                  .reverse()}
+              />
+            </div>
           </div>
         )}
       </>

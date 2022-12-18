@@ -13,7 +13,7 @@ const BasicChart = ({ data, color, xData }: Props) => {
       show: true,
       top: "5%",
       width: "90%",
-      height: "90%",
+      height: "85%",
       bottom: 0,
     },
     xAxis: {
